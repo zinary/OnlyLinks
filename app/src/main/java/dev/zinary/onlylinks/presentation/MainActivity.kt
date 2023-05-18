@@ -20,11 +20,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import dev.zinary.hacx0rn3wz.ui.theme.OnlyLinksTheme
-import dev.zinary.onlylinks.presentation.about.AboutScreen
-import dev.zinary.onlylinks.presentation.home.add_edit_url.UrlScreen
-import dev.zinary.onlylinks.presentation.home.categories.CategoriesScreen
-import dev.zinary.onlylinks.presentation.home.LinksScreen
-import dev.zinary.onlylinks.presentation.settings.SettingsScreen
+import dev.zinary.onlylinks.presentation.screens.about.AboutScreen
+import dev.zinary.onlylinks.presentation.screens.home.add_edit_url.UrlScreen
+import dev.zinary.onlylinks.presentation.screens.home.categories.CategoriesScreen
+import dev.zinary.onlylinks.presentation.screens.home.LinksScreen
+import dev.zinary.onlylinks.presentation.screens.settings.SettingsScreen
 
 class MainActivity : ComponentActivity() {
 
