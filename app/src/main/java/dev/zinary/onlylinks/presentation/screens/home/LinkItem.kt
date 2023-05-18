@@ -1,12 +1,12 @@
 package dev.zinary.onlylinks.presentation.screens.home
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.OpenInBrowser
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.text.style.TextOverflow
@@ -21,13 +21,14 @@ fun LinkItem(
     onClicked: () -> Unit,
 ) {
     ListItem(
-        modifier = modifier.clickable {
-            onClicked()
-        },
+        modifier = modifier
+            .fillMaxWidth()
+            .background(MaterialTheme.colorScheme.inversePrimary)
+            .clickable {
+                onClicked()
+            },
         leadingContent = {
-            Box(contentAlignment = Alignment.Center) {
-                Text(text = "$index")
-            }
+//       todo show the image here
         },
         headlineText = {
             Text(text = "Link Title $item")
@@ -42,7 +43,7 @@ fun LinkItem(
         trailingContent = {
             IconButton(onClick = { /*TODO*/ }) {
                 Icon(
-                    painter = rememberVectorPainter(image = Icons.Default.OpenInBrowser),
+                    painter = rememberVectorPainter(image = Icons.Default.MoreVert),
                     contentDescription = null,
                 )
             }

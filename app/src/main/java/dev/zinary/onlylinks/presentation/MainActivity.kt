@@ -19,7 +19,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import dev.zinary.hacx0rn3wz.ui.theme.OnlyLinksTheme
+import dev.zinary.onlylinks.ui.theme.OnlyLinksTheme
 import dev.zinary.onlylinks.presentation.screens.about.AboutScreen
 import dev.zinary.onlylinks.presentation.screens.home.add_edit_url.UrlScreen
 import dev.zinary.onlylinks.presentation.screens.home.categories.CategoriesScreen

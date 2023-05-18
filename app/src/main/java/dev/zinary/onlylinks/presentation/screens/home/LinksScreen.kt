@@ -1,28 +1,35 @@
 package dev.zinary.onlylinks.presentation.screens.home
 
 import android.widget.Toast
-import androidx.compose.animation.*
-import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.LightbulbCircle
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import dev.zinary.onlylinks.util.Constants
 
 @Composable
 @OptIn(
     ExperimentalMaterial3Api::class,
-    ExperimentalFoundationApi::class,
-    ExperimentalAnimationApi::class,
 )
 fun LinksScreen(
     onLinkItemClick: (String) -> Unit,
@@ -35,71 +42,26 @@ fun LinksScreen(
     val firstVisibleItemIndex by remember { derivedStateOf { scrollState.firstVisibleItemIndex } }
 
     var count by remember { mutableStateOf(0) }
-
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
-        rememberTopAppBarState(),
-        canScroll = { true },
-    )
+    var selectedChipIndex by remember { mutableStateOf(0) }
 
     Scaffold(
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = {
-            LargeTopAppBar(
-                title = {
-                    Text(text = "Only Links 🔗")
+        floatingActionButton = {
+            ExtendedFloatingActionButton(
+                text = {
+                    Text(text = "Add Link")
                 },
-                actions = {
-                    IconButton(onClick = {
-                        onLinkItemClick("search")
-                    }) {
-                        Icon(
-                            painter = rememberVectorPainter(image = Icons.Default.Search),
-                            contentDescription = "Search links",
-                        )
-                    }
-                    Switch(checked = isDarkTheme, onCheckedChange = onThemeChange, thumbContent = {
-                        Icon(
-                            painter = rememberVectorPainter(image = Icons.Default.LightbulbCircle),
-                            contentDescription = "Change Theme",
-                        )
-                    })
-//                    IconButton(onClick = { onThemeChange }) {
-
-//                    }
+                icon = {
+                    Icon(
+                        painter = rememberVectorPainter(image = Icons.Default.Add),
+                        contentDescription = "Add new link",
+                    )
                 },
-                scrollBehavior = scrollBehavior,
+                onClick = {
+                    count++
+                },
             )
         },
-        floatingActionButton = {
-            AnimatedVisibility(
-                visible = firstVisibleItemIndex == 0,
-                enter = slideInVertically(initialOffsetY = {
-                    it
-                }) + scaleIn() + fadeIn(),
-                exit = slideOutVertically(
-                    targetOffsetY = {
-                        it
-                    },
-                ) + scaleOut() + fadeOut(),
-            ) {
-                ExtendedFloatingActionButton(
-                    text = {
-                        Text(text = "Add Link")
-                    },
-                    icon = {
-                        Icon(
-                            painter = rememberVectorPainter(image = Icons.Default.Add),
-                            contentDescription = "Add new link",
-                        )
-                    },
-                    onClick = {
-                        count++
-                    },
-                )
-            }
-        },
     ) { paddingValues ->
-        var selectedChipIndex by remember { mutableStateOf(0) }
 
         if (openDialog) {
             AlertDialog(
@@ -130,31 +92,32 @@ fun LinksScreen(
                     }
                 },
 
-            )
+                )
         }
 
-        LazyColumn(contentPadding = paddingValues, state = scrollState) {
-            stickyHeader {
+        Column(
+            modifier = Modifier.padding(paddingValues)
+        ) {
+            CategoriesChipsGroup(
+                categories = Constants.CATEGORIES,
+                selectedChipIndex = selectedChipIndex,
+            ) {
+                selectedChipIndex = it
             }
-
-            item(contentType = null) {
-                CategoriesChipsGroup(
-                    categories = Constants.CATEGORIES,
-                    selectedChipIndex = selectedChipIndex,
-                ) {
-                    selectedChipIndex = it
+            LazyColumn(
+                state = scrollState,
+                modifier = Modifier.weight(1f)
+            ) {
+                itemsIndexed((1..220).toList(), key = { _, i -> i }) { index, item ->
+                    LinkItem(
+                        isSelectionMode = false,
+                        index = index,
+                        item = item,
+                        onClicked = {
+                            onLinkItemClick("link")
+                        },
+                    )
                 }
-            }
-
-            itemsIndexed((1..20).toList(), key = { _, i -> i }) { index, item ->
-                LinkItem(
-                    isSelectionMode = false,
-                    index = index,
-                    item = item,
-                    onClicked = {
-                        onLinkItemClick("link")
-                    },
-                )
             }
         }
     }

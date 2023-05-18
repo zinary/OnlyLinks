@@ -1,4 +1,4 @@
-package dev.zinary.hacx0rn3wz.ui.theme
+package dev.zinary.onlylinks.ui.theme
 
 import android.app.Activity
 import android.os.Build
@@ -14,13 +14,6 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.ViewCompat
-import dev.zinary.onlylinks.ui.theme.Pink40
-import dev.zinary.onlylinks.ui.theme.Pink80
-import dev.zinary.onlylinks.ui.theme.Purple40
-import dev.zinary.onlylinks.ui.theme.Purple80
-import dev.zinary.onlylinks.ui.theme.PurpleGrey40
-import dev.zinary.onlylinks.ui.theme.PurpleGrey80
-import dev.zinary.onlylinks.ui.theme.Typography
 
 private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
@@ -62,8 +55,8 @@ fun OnlyLinksTheme(
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {
-            (view.context as Activity).window.statusBarColor = colorScheme.primary.toArgb()
-            ViewCompat.getWindowInsetsController(view)?.isAppearanceLightStatusBars = darkTheme
+            (view.context as Activity).window.statusBarColor = colorScheme.background.toArgb()
+            ViewCompat.getWindowInsetsController(view)?.isAppearanceLightStatusBars = !darkTheme
         }
     }
 
